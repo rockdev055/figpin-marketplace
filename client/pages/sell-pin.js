@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-const NewSale = () => {
+const SellPin = () => {
   return (
     <>
-      <p>New Sale</p>
+      <p>Sell Pin</p>
     </>
   );
 };
 
-export default NewSale;
+export default SellPin;
