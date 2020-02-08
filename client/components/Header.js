@@ -1,6 +1,18 @@
-import Navbar from './Navbar';
 import Link from 'next/link';
 import styled from 'styled-components';
+import Navbar from './Navbar';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 const Logo = styled.h3`
   font-size: 4rem;
