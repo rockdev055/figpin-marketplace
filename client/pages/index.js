@@ -1,10 +1,10 @@
-import Link from 'next/link';
+import Pins from '../components/Pins';
 
 const HomePage = () => {
   return (
-    <>
-      <p>Home</p>
-    </>
+    <div>
+      <Pins />
+    </div>
   );
 };
 
