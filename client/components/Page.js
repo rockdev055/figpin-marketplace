@@ -10,7 +10,7 @@ const theme = {
   orange: '#fd9644',
   lightgrey: '#E1E1E1',
   offWhite: '#EDEDED',
-  maxWidth: '1000px',
+  maxWidth: '1300px',
   bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
 };
 
