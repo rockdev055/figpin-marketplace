@@ -1,5 +1,9 @@
 # source: https://us1.prisma.sh/cernan-bernardo-0ae90d/figpin-marketplace/dev
-# timestamp: Sat Feb 08 2020 10:37:19 GMT-0800 (Pacific Standard Time)
+# timestamp: Sat Feb 08 2020 12:18:20 GMT-0800 (Pacific Standard Time)
+
+type AggregatePin {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -10,6 +14,8 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -18,11 +24,17 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createPin(data: PinCreateInput!): Pin!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updatePin(data: PinUpdateInput!, where: PinWhereUniqueInput!): Pin
   deleteUser(where: UserWhereUniqueInput!): User
+  deletePin(where: PinWhereUniqueInput!): Pin
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertPin(where: PinWhereUniqueInput!, create: PinCreateInput!, update: PinUpdateInput!): Pin!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyPins(data: PinUpdateManyMutationInput!, where: PinWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyPins(where: PinWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -52,10 +64,458 @@ type PageInfo {
   endCursor: String
 }
 
+type Pin implements Node {
+  id: ID!
+  name: String!
+  figpinID: Int!
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String!
+  volumnSize: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type PinConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PinEdge]!
+  aggregate: AggregatePin!
+}
+
+input PinCreateInput {
+  id: ID
+  name: String!
+  figpinID: Int!
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String!
+  volumnSize: Int!
+}
+
+"""An edge in a connection."""
+type PinEdge {
+  """The item at the end of the edge."""
+  node: Pin!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PinOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  figpinID_ASC
+  figpinID_DESC
+  exclusive_ASC
+  exclusive_DESC
+  image_ASC
+  image_DESC
+  largeImage_ASC
+  largeImage_DESC
+  edition_ASC
+  edition_DESC
+  volumnSize_ASC
+  volumnSize_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PinPreviousValues {
+  id: ID!
+  name: String!
+  figpinID: Int!
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String!
+  volumnSize: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PinSubscriptionPayload {
+  mutation: MutationType!
+  node: Pin
+  updatedFields: [String!]
+  previousValues: PinPreviousValues
+}
+
+input PinSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PinSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PinSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PinSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PinWhereInput
+}
+
+input PinUpdateInput {
+  name: String
+  figpinID: Int
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String
+  volumnSize: Int
+}
+
+input PinUpdateManyMutationInput {
+  name: String
+  figpinID: Int
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String
+  volumnSize: Int
+}
+
+input PinWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PinWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PinWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PinWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  figpinID: Int
+
+  """All values that are not equal to given value."""
+  figpinID_not: Int
+
+  """All values that are contained in given list."""
+  figpinID_in: [Int!]
+
+  """All values that are not contained in given list."""
+  figpinID_not_in: [Int!]
+
+  """All values less than the given value."""
+  figpinID_lt: Int
+
+  """All values less than or equal the given value."""
+  figpinID_lte: Int
+
+  """All values greater than the given value."""
+  figpinID_gt: Int
+
+  """All values greater than or equal the given value."""
+  figpinID_gte: Int
+  exclusive: Boolean
+
+  """All values that are not equal to given value."""
+  exclusive_not: Boolean
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
+  largeImage: String
+
+  """All values that are not equal to given value."""
+  largeImage_not: String
+
+  """All values that are contained in given list."""
+  largeImage_in: [String!]
+
+  """All values that are not contained in given list."""
+  largeImage_not_in: [String!]
+
+  """All values less than the given value."""
+  largeImage_lt: String
+
+  """All values less than or equal the given value."""
+  largeImage_lte: String
+
+  """All values greater than the given value."""
+  largeImage_gt: String
+
+  """All values greater than or equal the given value."""
+  largeImage_gte: String
+
+  """All values containing the given string."""
+  largeImage_contains: String
+
+  """All values not containing the given string."""
+  largeImage_not_contains: String
+
+  """All values starting with the given string."""
+  largeImage_starts_with: String
+
+  """All values not starting with the given string."""
+  largeImage_not_starts_with: String
+
+  """All values ending with the given string."""
+  largeImage_ends_with: String
+
+  """All values not ending with the given string."""
+  largeImage_not_ends_with: String
+  edition: String
+
+  """All values that are not equal to given value."""
+  edition_not: String
+
+  """All values that are contained in given list."""
+  edition_in: [String!]
+
+  """All values that are not contained in given list."""
+  edition_not_in: [String!]
+
+  """All values less than the given value."""
+  edition_lt: String
+
+  """All values less than or equal the given value."""
+  edition_lte: String
+
+  """All values greater than the given value."""
+  edition_gt: String
+
+  """All values greater than or equal the given value."""
+  edition_gte: String
+
+  """All values containing the given string."""
+  edition_contains: String
+
+  """All values not containing the given string."""
+  edition_not_contains: String
+
+  """All values starting with the given string."""
+  edition_starts_with: String
+
+  """All values not starting with the given string."""
+  edition_not_starts_with: String
+
+  """All values ending with the given string."""
+  edition_ends_with: String
+
+  """All values not ending with the given string."""
+  edition_not_ends_with: String
+  volumnSize: Int
+
+  """All values that are not equal to given value."""
+  volumnSize_not: Int
+
+  """All values that are contained in given list."""
+  volumnSize_in: [Int!]
+
+  """All values that are not contained in given list."""
+  volumnSize_not_in: [Int!]
+
+  """All values less than the given value."""
+  volumnSize_lt: Int
+
+  """All values less than or equal the given value."""
+  volumnSize_lte: Int
+
+  """All values greater than the given value."""
+  volumnSize_gt: Int
+
+  """All values greater than or equal the given value."""
+  volumnSize_gte: Int
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+input PinWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  pins(where: PinWhereInput, orderBy: PinOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pin]!
   user(where: UserWhereUniqueInput!): User
+  pin(where: PinWhereUniqueInput!): Pin
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  pinsConnection(where: PinWhereInput, orderBy: PinOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PinConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -66,6 +526,7 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  pin(where: PinSubscriptionWhereInput): PinSubscriptionPayload
 }
 
 type User implements Node {

@@ -4,3 +4,16 @@ type User {
   email: String!
   userName: String!
 }
+
+type Pin {
+  id: ID! @id
+  name: String!
+  figpinID: Int!
+  exclusive: Boolean
+  image: String
+  largeImage: String
+  edition: String!
+  volumnSize: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

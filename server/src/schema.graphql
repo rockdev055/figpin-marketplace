@@ -1,7 +1,17 @@
+# import * from './generated/prisma.graphql'
+
 type Mutation {
-  hi: String
+  createPin(
+    name: String
+    figpinID: Int
+    exclusive: Boolean
+    image: String
+    largeImage: String
+    volumnSize: Int
+    edition: String
+  ): Pin!
 }
 
 type Query {
-  hi: String
+  getPins: [Pin]!
 }
