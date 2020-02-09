@@ -9,6 +9,7 @@ type Mutation {
     largeImage: String
     volumnSize: Int
     edition: String
+    price: Int
   ): Pin!
 }
 

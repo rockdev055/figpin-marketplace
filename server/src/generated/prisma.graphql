@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/cernan-bernardo-0ae90d/figpin-marketplace/dev
-# timestamp: Sat Feb 08 2020 12:18:20 GMT-0800 (Pacific Standard Time)
+# timestamp: Sun Feb 09 2020 09:31:41 GMT-0800 (Pacific Standard Time)
 
 type AggregatePin {
   count: Int!
@@ -73,6 +73,7 @@ type Pin implements Node {
   largeImage: String
   edition: String!
   volumnSize: Int!
+  price: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -96,6 +97,7 @@ input PinCreateInput {
   largeImage: String
   edition: String!
   volumnSize: Int!
+  price: Int!
 }
 
 """An edge in a connection."""
@@ -124,6 +126,8 @@ enum PinOrderByInput {
   edition_DESC
   volumnSize_ASC
   volumnSize_DESC
+  price_ASC
+  price_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -139,6 +143,7 @@ type PinPreviousValues {
   largeImage: String
   edition: String!
   volumnSize: Int!
+  price: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -190,6 +195,7 @@ input PinUpdateInput {
   largeImage: String
   edition: String
   volumnSize: Int
+  price: Int
 }
 
 input PinUpdateManyMutationInput {
@@ -200,6 +206,7 @@ input PinUpdateManyMutationInput {
   largeImage: String
   edition: String
   volumnSize: Int
+  price: Int
 }
 
 input PinWhereInput {
@@ -459,6 +466,28 @@ input PinWhereInput {
 
   """All values greater than or equal the given value."""
   volumnSize_gte: Int
+  price: Int
+
+  """All values that are not equal to given value."""
+  price_not: Int
+
+  """All values that are contained in given list."""
+  price_in: [Int!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Int!]
+
+  """All values less than the given value."""
+  price_lt: Int
+
+  """All values less than or equal the given value."""
+  price_lte: Int
+
+  """All values greater than the given value."""
+  price_gt: Int
+
+  """All values greater than or equal the given value."""
+  price_gte: Int
   createdAt: DateTime
 
   """All values that are not equal to given value."""
