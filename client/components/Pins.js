@@ -9,6 +9,10 @@ const GET_PINS = gql`
     getPins {
       id
       name
+      price
+      edition
+      volumnSize
+      image
     }
   }
 `;
