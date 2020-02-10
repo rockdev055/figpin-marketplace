@@ -1,12 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
+import NewPin from '../components/NewPin';
 
 const SellPin = () => {
-  return (
-    <>
-      <p>Sell Pin</p>
-    </>
-  );
+  return <NewPin />;
 };
 
 export default SellPin;

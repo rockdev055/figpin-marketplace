@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import PinList from './PinList';
 
-const GET_PINS = gql`
+export const GET_PINS = gql`
   {
     getPins {
       id
