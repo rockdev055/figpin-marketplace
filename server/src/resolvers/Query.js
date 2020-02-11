@@ -5,6 +5,7 @@ const Queries = {
     const pins = await context.db.query.pins();
     return pins;
   },
+  pin: forwardTo('db'),
 };
 
 module.exports = Queries;

@@ -20,15 +20,15 @@ const Pin = ({ pin }) => {
       <div className="buttonList">
         <Link
           href={{
-            pathname: 'update',
+            pathname: 'edit-pin',
             query: { id: pin.id },
           }}
         >
           <a>Edit</a>
         </Link>
 
-        <button>Add to Card</button>
-        <button>Delete</button>
+        <button>Add to Cart</button>
+        <button onClick={() => {}}>Delete</button>
       </div>
     </PinStyles>
   );

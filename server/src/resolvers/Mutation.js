@@ -6,6 +6,19 @@ const Mutations = {
     );
     return pin;
   },
+  async updatePin(parent, args, context, info) {
+    const updates = { ...args };
+    delete updates.id;
+    return context.db.mutation.updatePin(
+      {
+        data: updates,
+        where: {
+          id: args.id,
+        },
+      },
+      info
+    );
+  },
 };
 
 module.exports = Mutations;

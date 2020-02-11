@@ -11,8 +11,20 @@ type Mutation {
     edition: String
     price: Int
   ): Pin!
+  updatePin(
+    id: ID!
+    name: String
+    figpinID: Int
+    exclusive: Boolean
+    image: String
+    largeImage: String
+    volumnSize: Int
+    edition: String
+    price: Int
+  ): Pin!
 }
 
 type Query {
   getPins: [Pin]!
+  pin(where: PinWhereUniqueInput!): Pin
 }

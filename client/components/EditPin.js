@@ -1,22 +1,37 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import FormStyle from './styles/FormStyle';
 import formatMoney from '../lib/formatMoney';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 
-export const CREATE_PIN_MUTATION = gql`
-  mutation CreatePin(
-    $name: String!
-    $figpinID: Int!
-    $volumnSize: Int!
-    $edition: String!
-    $price: Int!
+export const SINGLE_PIN_QUERY = gql`
+  query SINGLE_PIN_QUERY($id: ID!) {
+    pin(where: { id: $id }) {
+      name
+      volumnSize
+      edition
+      exclusive
+      figpinID
+      price
+      image
+    }
+  }
+`;
+
+export const UPDATE_PIN_MUTATION = gql`
+  mutation UpdatePin(
+    $id: ID!
+    $name: String
+    $figpinID: Int
+    $volumnSize: Int
+    $edition: String
+    $price: Int
     $exclusive: Boolean
     $image: String
-    $largeImage: String
   ) {
-    createPin(
+    updatePin(
+      id: $id
       name: $name
       figpinID: $figpinID
       volumnSize: $volumnSize
@@ -24,26 +39,26 @@ export const CREATE_PIN_MUTATION = gql`
       price: $price
       exclusive: $exclusive
       image: $image
-      largeImage: $largeImage
     ) {
       id
-      name
     }
   }
 `;
 
-const NewPin = () => {
-  const [formState, setFormState] = useState({
-    name: '',
-    figpinID: '',
-    volumnSize: '',
-    edition: '',
-    price: '',
-    exclusive: false,
-    image: '',
-    largeImage: '',
-  });
-  const [createPin, { loading, error }] = useMutation(CREATE_PIN_MUTATION);
+const EditPin = ({ id }) => {
+  const [formState, setFormState] = useState({});
+  const { loading: pinLoading, error: pinError, data } = useQuery(
+    SINGLE_PIN_QUERY,
+    {
+      variables: { id },
+    }
+  );
+
+  const [updatePin, { loading, error }] = useMutation(UPDATE_PIN_MUTATION);
+
+  if (pinLoading) return <p>Loading...</p>;
+
+  // const [formState, setFormState] = useState({ ...data.pin });
 
   function updateFormState(e) {
     const value =
@@ -74,19 +89,23 @@ const NewPin = () => {
       largeImage: file.eager[0].secure_url,
     });
   }
+  console.log(data);
+
   return (
     <FormStyle
       onSubmit={async e => {
         e.preventDefault();
-        const { data } = await createPin({ variables: { ...formState } });
+        const { data } = await updatePin({
+          variables: { id, ...formState },
+        });
         Router.push({
           pathname: '/pin',
-          query: { id: data.createPin.id },
+          query: { id: data.updatePin.id },
         });
       }}
     >
       {error && <p>There was an error</p>}
-      <h2>Sell a Pin</h2>
+      <h2>Edit a Pin</h2>
       <fieldset disabled={loading} aria-busy={loading}>
         <label htmlFor="file">
           Image
@@ -105,6 +124,14 @@ const NewPin = () => {
               alt="Upload Preview"
             />
           )}
+          {data.pin.image && !formState.image && (
+            <img
+              width={200}
+              height={300}
+              src={data.pin.image}
+              alt="Upload Preview"
+            />
+          )}
         </label>
         <label htmlFor="name">
           Name
@@ -113,7 +140,7 @@ const NewPin = () => {
             id="name"
             name="name"
             placeholder="Name"
-            value={formState.name}
+            defaultValue={data.pin.name}
             onChange={updateFormState}
             required
           />
@@ -126,7 +153,7 @@ const NewPin = () => {
             name="figpinID"
             placeholder="FiGPiN ID"
             onChange={updateFormState}
-            value={formState.figpinID}
+            defaultValue={data.pin.figpinID}
             required
           />
         </label>
@@ -136,7 +163,7 @@ const NewPin = () => {
             type="number"
             id="volumnSize"
             name="volumnSize"
-            value={formState.volumnSize}
+            defaultValue={data.pin.volumnSize}
             onChange={updateFormState}
             placeholder="Volumn Size"
             required
@@ -148,7 +175,7 @@ const NewPin = () => {
             type="text"
             id="edition"
             name="edition"
-            value={formState.edition}
+            defaultValue={data.pin.edition}
             onChange={updateFormState}
             placeholder="Edition"
             required
@@ -160,7 +187,7 @@ const NewPin = () => {
             type="number"
             id="price"
             name="price"
-            value={formState.price}
+            defaultValue={data.pin.price}
             onChange={updateFormState}
             placeholder="price"
             required
@@ -173,20 +200,14 @@ const NewPin = () => {
             id="exclusive"
             name="exclusive"
             onChange={updateFormState}
-            checked={formState.exclusive}
+            defaultChecked={data.pin.exclusive}
+            // checked={data.pin.exclusive}
           />
         </label>
-        <button type="submit">Create Pin</button>
+        <button type="submit">Updat{loading ? 'ing' : 'e'} Pin</button>
       </fieldset>
     </FormStyle>
   );
 };
 
-export default NewPin;
-
-// exclusive: true,
-//     largeImage: "dsafdfds",
-//     image: "dsfsdf",
-//     volumnSize: 200,
-//     edition: "1st"
-//     price:30000
+export default EditPin;
