@@ -21,7 +21,13 @@ const Mutations = {
       info
     );
   },
-  deletePin: forwardTo('db'),
+  async deletePin(parent, args, context, info) {
+    const where = { id: args.id };
+    console.log(where);
+    const pin = await context.db.query.pin({ where }, `{ id name }`);
+
+    return context.db.mutation.deletePin({ where }, info);
+  },
 };
 
 module.exports = Mutations;
