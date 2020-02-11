@@ -5,13 +5,14 @@ import TitleStyle from './styles/TitleStyle';
 import PriceTagStyle from './styles/PriceTagStyle';
 import PinStyles from './styles/PinStyles';
 import format from '../lib/formatMoney';
+import DeletePin from './DeletePin';
 
 const Pin = ({ pin }) => {
   return (
     <PinStyles>
       {pin.image && <img src={pin.image} alt={pin.title} />}
       <TitleStyle>
-        <Link href={{ pathname: '/item', query: { id: pin.id } }}>
+        <Link href={{ pathname: '/pin', query: { id: pin.id } }}>
           <a>{pin.name}</a>
         </Link>
       </TitleStyle>
@@ -28,14 +29,14 @@ const Pin = ({ pin }) => {
         </Link>
 
         <button>Add to Cart</button>
-        <button onClick={() => {}}>Delete</button>
+        <DeletePin id={pin.id}>Delete</DeletePin>
       </div>
     </PinStyles>
   );
 };
 
 Pin.propTypes = {
-  item: PropTypes.object.isRequired,
+  pin: PropTypes.object.isRequired,
 };
 
 export default Pin;
