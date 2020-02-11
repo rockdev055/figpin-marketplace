@@ -22,6 +22,7 @@ type Mutation {
     edition: String
     price: Int
   ): Pin!
+  deletePin(where: PinWhereUniqueInput!): Pin
 }
 
 type Query {

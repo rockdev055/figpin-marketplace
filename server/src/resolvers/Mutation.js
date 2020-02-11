@@ -1,3 +1,5 @@
+const { forwardTo } = require('prisma-binding');
+
 const Mutations = {
   async createPin(parent, args, context, info) {
     const pin = await context.db.mutation.createPin(
@@ -19,6 +21,7 @@ const Mutations = {
       info
     );
   },
+  deletePin: forwardTo('db'),
 };
 
 module.exports = Mutations;
