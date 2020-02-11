@@ -183,10 +183,3 @@ const NewPin = () => {
 };
 
 export default NewPin;
-
-// exclusive: true,
-//     largeImage: "dsafdfds",
-//     image: "dsfsdf",
-//     volumnSize: 200,
-//     edition: "1st"
-//     price:30000
