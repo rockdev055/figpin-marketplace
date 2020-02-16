@@ -15,6 +15,7 @@ export const SINGLE_PIN_QUERY = gql`
       figpinID
       price
       image
+      largeImage
     }
   }
 `;
