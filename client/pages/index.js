@@ -1,9 +1,9 @@
 import Pins from '../components/Pins';
 
-const HomePage = () => {
+const HomePage = props => {
   return (
     <div>
-      <Pins />
+      <Pins page={+props.query.page || 1} />
     </div>
   );
 };

@@ -26,6 +26,12 @@ type Mutation {
 }
 
 type Query {
-  getPins: [Pin]!
+  getPins(
+    where: PinWhereInput
+    orderBy: PinOrderByInput
+    skip: Int
+    first: Int
+  ): [Pin]!
   pin(where: PinWhereUniqueInput!): Pin
+  pinsConnection(where: PinWhereInput): PinConnection!
 }
